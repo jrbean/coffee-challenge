@@ -11,7 +11,19 @@ class Person
 end
 
 class Coffee
-  # Write code here!
+  attr_reader :sips_left
+
+  def initialize
+    @sips_left = 5
+  end
+
+  def full?
+    @sips_left == 5
+  end
+
+  def empty?
+    @sips_left == 0
+  end
 end
 
 
@@ -24,7 +36,6 @@ class CoffeeTest < Minitest::Test
   end
 
   def test_people_have_names
-    skip
     mal = Person.new "Mallory"
     assert_equal "Mallory", mal.name
   end
@@ -79,7 +90,6 @@ class CoffeeTest < Minitest::Test
     assert c.empty?
   end
 
-  # HARD MODE
   def test_you_cant_drink_from_an_empty_mug
     skip
     c = Coffee.new
@@ -93,4 +103,10 @@ class CoffeeTest < Minitest::Test
       kat.take_sip
     end
   end
+
+  # What other tests should we write?
+  # What should happen if you try to drink, but don't have coffee?
+  # What if a person already has coffee and buys a new coffee?
+  # Allow for different sizes of coffee cups, with different
+  #   numbers of sips in them
 end
