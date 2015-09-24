@@ -1,13 +1,17 @@
 require 'minitest/autorun'
 begin
   require 'minitest/reporters'
-  Minitest::Reporters.use!
+  Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 rescue LoadError
 end
 
 
 class Person
-  # Write code here!
+  attr_reader :name
+
+  def initialize name
+    @name = name
+  end
 end
 
 class Coffee
