@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 begin
   require 'minitest/reporters'
-  Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+  Minitest::Reporters.use!
 rescue LoadError
 end
 
@@ -11,10 +11,11 @@ class Person
 
   def initialize name
     @name = name
+    @sips_taken = 0
   end
 
-  def buy cup_of_coffee_that_you_should_buy
-    @held_coffee = cup_of_coffee_that_you_should_buy
+  def buy coffee
+    @held_coffee = coffee
   end
 
   def current_coffee_cup
@@ -22,13 +23,18 @@ class Person
   end
 
   def take_sip
+    raise if @held_coffee.empty?
     @held_coffee.remove_sip
+    @sips_taken += 1
+  end
+
+  def awake?
+    @sips_taken == 5
   end
 end
 
 class Coffee
-  attr_reader :sips_left
-
+  attr_accessor :sips_left
   def initialize
     @sips_left = 5
   end
@@ -79,7 +85,6 @@ class CoffeeTest < Minitest::Test
   end
 
   def test_drinking_coffee_wakes_people_up
-    skip
     c = Coffee.new
     kat = Person.new "Katie"
     refute kat.awake?
@@ -91,7 +96,6 @@ class CoffeeTest < Minitest::Test
   end
 
   def test_drinking_coffee_empties_the_coffee
-    skip
     c = Coffee.new
     kat = Person.new "Katie"
     kat.buy c
@@ -108,8 +112,8 @@ class CoffeeTest < Minitest::Test
     assert c.empty?
   end
 
+  # HARD MODE
   def test_you_cant_drink_from_an_empty_mug
-    skip
     c = Coffee.new
     kat = Person.new "Katie"
     refute kat.awake?
@@ -117,14 +121,8 @@ class CoffeeTest < Minitest::Test
     kat.buy c
     5.times { kat.take_sip }
 
-    assert_raises do
+    assert_raises(RuntimeError) do
       kat.take_sip
     end
   end
-
-  # What other tests should we write?
-  # What should happen if you try to drink, but don't have coffee?
-  # What if a person already has coffee and buys a new coffee?
-  # Allow for different sizes of coffee cups, with different
-  #   numbers of sips in them
 end
