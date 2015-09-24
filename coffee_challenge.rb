@@ -20,6 +20,10 @@ class Person
   def current_coffee_cup
     @held_coffee
   end
+
+  def take_sip
+    @held_coffee.remove_sip
+  end
 end
 
 class Coffee
@@ -35,6 +39,10 @@ class Coffee
 
   def empty?
     @sips_left == 0
+  end
+
+  def remove_sip
+    @sips_left -= 1
   end
 end
 
@@ -61,7 +69,6 @@ class CoffeeTest < Minitest::Test
   end
 
   def test_people_can_drink_their_coffee
-    skip
     c = Coffee.new
     kat = Person.new "Katie"
     kat.buy c
