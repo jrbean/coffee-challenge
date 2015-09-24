@@ -12,6 +12,14 @@ class Person
   def initialize name
     @name = name
   end
+
+  def buy cup_of_coffee_that_you_should_buy
+    @held_coffee = cup_of_coffee_that_you_should_buy
+  end
+
+  def current_coffee_cup
+    @held_coffee
+  end
 end
 
 class Coffee
@@ -45,7 +53,6 @@ class CoffeeTest < Minitest::Test
   end
 
   def test_people_can_buy_coffee
-    skip
     c = Coffee.new
     kat = Person.new "Katie"
     kat.buy c
